@@ -1,1 +1,2 @@
-export * from './TyntecApiModule';
+export * from './tyntec-api-service';
+export * from './__generated__'

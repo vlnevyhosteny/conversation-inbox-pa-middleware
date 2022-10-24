@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ForwardController, ForwardToTyntecService } from './forward';
+import { TyntecApiService } from './tyntec';
 
 @Module({
   imports: [ConfigModule.forRoot({
     envFilePath: ['.env', '.env.development.local'],
   })],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [ForwardController],
+  providers: [TyntecApiService, ForwardToTyntecService],
 })
 export class AppModule {}
