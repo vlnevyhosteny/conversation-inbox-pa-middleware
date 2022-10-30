@@ -1,18 +1,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { SendAudioMessageBodyType } from '../models/SendAudioMessageBodyType';
-import type { SendContactMessageBodyType } from '../models/SendContactMessageBodyType';
-import type { SendDocumentMessageBodyType } from '../models/SendDocumentMessageBodyType';
-import type { SendGifMessageBodyType } from '../models/SendGifMessageBodyType';
-import type { SendImageMessageBodyType } from '../models/SendImageMessageBodyType';
-import type { SendLocationMessageBodyType } from '../models/SendLocationMessageBodyType';
-import type { SendMessageResponse } from '../models/SendMessageResponse';
-import type { SendStickerMessageBodyType } from '../models/SendStickerMessageBodyType';
-import type { SendTemplateMessageBodyType } from '../models/SendTemplateMessageBodyType';
-import type { SendTextMessageBodyType } from '../models/SendTextMessageBodyType';
-import type { SendVideoMessageBodyType } from '../models/SendVideoMessageBodyType';
-import type { SendVoiceMessageBodyType } from '../models/SendVoiceMessageBodyType';
+import type { MessageRequest } from '../models/MessageRequest';
+import type { MessageResponse } from '../models/MessageResponse';
+import type { Problem } from '../models/Problem';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -23,125 +14,28 @@ export class MessagingService {
 
   /**
    * Send a message
-   * Request to send a message to a contact in a channel.
-   *
-   * The JSON body structure of each message type is listed below.
-   *
-   * **Audio**
-   *
-   * | **Element** | **Value**  | **Mandatory**  | **Description**  |
-   * | ---         | ---       | ---           | ---              |
-   * | mimeType    | string    | Y             |MIME type         |
-   * |type          | "audio"  | Y             | Message type     |
-   *
-   * **Contact**
-   *
-   * | **Element** | **Value**  | **Mandatory**  | **Description**   |
-   * | ---         | ---       | ---           | ---               |
-   * | contacts  | array   | Y             | Contact structure |
-   * | type      | "contact" | Y            | Message type      |
-   *
-   * **Document**
-   *
-   * | **Element** | **Value**  | **Mandatory**  | **Description**  |
-   * | ---         | ---       | ---           | ---              |
-   * | fileName  | string  | Y              | File name        |
-   * | mimeType  | string  | Y              | MIME type        |
-   * | title     | string  | Y             | Document title   |
-   * | type        | "document"| Y           | Message type     |
-   *
-   * **Gif**
-   *
-   * | **Element** | **Value**  | **Mandatory**  | **Description**      |
-   * | ---         | ---       | ---           | ---                  |
-   * | caption      | string  | N             | Caption text message |
-   * | mimeType  | string  | Y           | MIME type            |
-   * | type      | "gif"   | Y             | Message type         |
-   *
-   * **Image**
-   *
-   * | **Element** | **Value**  | **Mandatory**  | **Description**      |
-   * | ---         | ---       | ---           | ---                  |
-   * | caption     | string   | N             | Caption text message |
-   * | mimeType  | string  | Y             | MIME type            |
-   * | type        | "image"   | Y           | Message type         |
-   *
-   * **Location**
-   *
-   * | **Element** | **Value**   | **Mandatory**  | **Description**         |
-   * | ---         | ---        | ---              | ---                     |
-   * | latitude  | float  Y   | Latitude         | coordinate              |
-   * | longitude  | float  Y   | Longitude        | coordinate              |
-   * | name      | string   | N                | Name of the location    |
-   * | type      | "location" | Y                | Message type            |
-   * | url          | string   | N                | Website URL             |
-   *
-   * **Voice message**
-   *
-   * | **Element** | **Value** | **Mandatory** | **Description**   |
-   * | ---         | ---       | ---           | ---               |
-   * | mimeType    | string    | Y             | MIME type         |
-   * | type        | "ptt"     | Y             | Message type      |
-   *
-   * **Sticker**
-   *
-   * | **Element** | **Value**  | **Mandatory**  | **Description**   |
-   * | ---         | ---       | ---           | ---               |
-   * | mimeType  | string  | Y             | MIME type         |
-   * | type        | "sticker"  | Y             | Message type      |
-   *
-   * **Template**
-   *
-   * | **Element** | **Value**   | **Mandatory**  | **Description**     |
-   * | ---         | ---        | ---              | ---                 |
-   * | template  | array      | Y                | Template structure  |
-   * | type        | "template" | Y                | Message type        |
-   *
-   * **Text**
-   *
-   * | **Element** | **Value**  | **Mandatory**  | **Description**   |
-   * | ---         | ---       | ---           | ---               |
-   * | body        | string  | Y             | Message body      |
-   * | type        | "text"  | Y             | Message type      |
-   *
-   * **Video**
-   *
-   * | **Element** | **Value**  | **Mandatory**  | **Description**       |
-   * | ---         | ---       | ---           | ---                   |
-   * | caption     | string  | N             | Caption text message  |
-   * | mimeType  | string  | Y             | MIME type             |
-   * | type        | "video"  | Y             | Message type          |
-   *
-   * @returns SendMessageResponse Accepted
+   * Send chat messages via this path.
+   * @returns Problem The default response in case of any other error. Please check the error object for details
+   * @returns MessageResponse The message is accepted by our system
    * @throws ApiError
    */
   public sendMessage({
-    channelJid,
-    contactJid,
     requestBody,
   }: {
     /**
-     * Jabber IDs to represent channel
-     */
-    channelJid: string,
-    /**
-     * Jabber IDs to represent contacts
-     */
-    contactJid: string,
-    /**
      * The message you would like to send
      */
-    requestBody: (SendTextMessageBodyType | SendVideoMessageBodyType | SendTemplateMessageBodyType | SendStickerMessageBodyType | SendVoiceMessageBodyType | SendLocationMessageBodyType | SendImageMessageBodyType | SendGifMessageBodyType | SendDocumentMessageBodyType | SendContactMessageBodyType | SendAudioMessageBodyType),
-  }): CancelablePromise<SendMessageResponse> {
+    requestBody: MessageRequest,
+  }): CancelablePromise<Problem | MessageResponse> {
     return this.httpRequest.request({
       method: 'POST',
-      url: '/channels/{channelJid}/messages/{contactJid}',
-      path: {
-        'channelJid': channelJid,
-        'contactJid': contactJid,
-      },
+      url: '/messages',
       body: requestBody,
       mediaType: 'application/json',
+      errors: {
+        400: `The request does not match our expectations. Please check the Problems object for details`,
+        403: `You attempting to use a number that is not assigned to your account`,
+      },
     });
   }
 

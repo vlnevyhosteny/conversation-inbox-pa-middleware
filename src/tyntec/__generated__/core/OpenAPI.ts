@@ -19,8 +19,8 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-  BASE: 'https://api.cmd.tyntec.com',
-  VERSION: '1.0',
+  BASE: 'https://api.tyntec.com/conversations/v3',
+  VERSION: '3.0',
   WITH_CREDENTIALS: false,
   CREDENTIALS: 'include',
   TOKEN: undefined,
