@@ -71,10 +71,7 @@ export class ForwardToTyntecService {
         break;
 
       default:
-        exception = new HttpException(
-          'Unknown Error on Tyntec API',
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
+        exception = new HttpException('Unknown Error on Tyntec API', status);
     }
 
     exception.cause = cause instanceof Error ? cause : new Error(cause.detail);

@@ -1,5 +1,5 @@
 import { Body, Controller, Inject, Post, Headers } from '@nestjs/common';
-import { SendMessageResponse } from '../tyntec';
+import { MessageResponse } from '../tyntec';
 import { ForwardToTyntecService } from './to-tyntec/forward-to-tyntec.service';
 import { ToTyntecBodyDto } from './to-tyntec/to-tyntec.dto';
 
@@ -14,7 +14,7 @@ export class ForwardController {
   public send(
     @Body() body: ToTyntecBodyDto, // TODO: produce invalid docs
     @Headers('tyntec-api-key') tyntecApiKey: string,
-  ): Promise<SendMessageResponse> {
+  ): Promise<MessageResponse> {
     return this.forwardToTyntecService.forward(body, tyntecApiKey);
   }
 }

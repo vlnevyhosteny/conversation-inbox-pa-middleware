@@ -9,11 +9,7 @@ import { TestingModule } from '@nestjs/testing';
 import { randomUUID } from 'crypto';
 import { compileTestingModule } from '../../../test/helpers';
 import { configKeys } from '../../config';
-import {
-  ApiError,
-  SendTextMessageBodyType,
-  TyntecApiService,
-} from '../../tyntec';
+import { ApiError, MessageRequest, TyntecApiService } from '../../tyntec';
 import { ForwardToTyntecService } from './forward-to-tyntec.service';
 import { ToTyntecBodyDto } from './to-tyntec.dto';
 
@@ -45,13 +41,18 @@ describe('ForwardToTyntecService', () => {
   let mockedApiService: MockedTyntecApiService;
   let configService: ConfigService;
 
-  const channelJid = 'whatsapp.eazy.im';
-  const contactJid = '31611111111';
+  let url: string;
+
   const apiKey = 'some-api-key';
 
-  const requestBody: SendTextMessageBodyType = {
-    type: 'text',
-    body: 'hello world',
+  const requestBody: MessageRequest = {
+    to: '123456789',
+    from: '987654321',
+    channel: 'whatsapp',
+    content: {
+      contentType: 'text',
+      text: 'A simple text message',
+    },
   };
 
   beforeEach(async () => {
@@ -68,19 +69,20 @@ describe('ForwardToTyntecService', () => {
     service = app.get(ForwardToTyntecService);
     mockedApiService = app.get(TyntecApiService);
     configService = app.get(ConfigService);
+
+    url = configService.getOrThrow(configKeys.tyntec.baseUrl);
   });
 
   it('should forward message to Tyntec', async () => {
     const succesfullResponse = {
-      id: randomUUID(),
+      messageId: randomUUID(),
+      acceptedAt: new Date(),
     };
 
     mockedApiService.setMockedResponse(succesfullResponse);
 
     const result = await service.forward(
       {
-        channelJid,
-        contactJid,
         requestBody,
       },
       apiKey,
@@ -96,8 +98,6 @@ describe('ForwardToTyntecService', () => {
     await expect(
       service.forward(
         {
-          channelJid,
-          contactJid,
           requestBody,
         },
         apiKey,
@@ -106,8 +106,6 @@ describe('ForwardToTyntecService', () => {
   });
 
   it('should throws an Forbidden error for 403 response', async () => {
-    const url = configService.getOrThrow(configKeys.tyntec.baseUrl);
-
     const cause = new ApiError(
       {
         method: 'POST',
@@ -122,24 +120,155 @@ describe('ForwardToTyntecService', () => {
         url,
         statusText: 'Forbidden',
       },
-      'Bad Request',
+      'Forbidden',
     );
     mockedApiService.setMockedResponse(cause);
 
     await expect(
       service.forward(
         {
-          channelJid,
-          contactJid,
+          requestBody,
+        },
+        apiKey,
+      ),
+    ).rejects.toThrow(new HttpException('Forbidden', HttpStatus.FORBIDDEN));
+  });
+
+  it('should throws an Unauthorized error for 401 response', async () => {
+    const cause = new ApiError(
+      {
+        method: 'POST',
+        url,
+      },
+      {
+        body: {
+          message: 'Unauthorized',
+        },
+        ok: false,
+        status: HttpStatus.UNAUTHORIZED,
+        url,
+        statusText: 'Unauthorized',
+      },
+      'Unauthorized',
+    );
+    mockedApiService.setMockedResponse(cause);
+
+    await expect(
+      service.forward(
+        {
           requestBody,
         },
         apiKey,
       ),
     ).rejects.toThrow(
-      (new HttpException(
-        'Access to Tyntec Conversation Inbox forbidden',
-        HttpStatus.FORBIDDEN,
-      ).cause = cause),
+      new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED),
+    );
+  });
+
+  it('should throws an Bad request error for 400 response', async () => {
+    const message = 'Given test request is Bad Request';
+
+    const cause = new ApiError(
+      {
+        method: 'POST',
+        url,
+      },
+      {
+        body: {
+          message,
+        },
+        ok: false,
+        status: HttpStatus.BAD_REQUEST,
+        url,
+        statusText: 'Bad Request',
+      },
+      message,
+    );
+    mockedApiService.setMockedResponse(cause);
+
+    await expect(
+      service.forward(
+        {
+          requestBody,
+        },
+        apiKey,
+      ),
+    ).rejects.toThrow(new HttpException(message, HttpStatus.BAD_REQUEST));
+  });
+
+  it('should throws an Internal server error error for 500 response', async () => {
+    const message = 'Something is wrong';
+
+    const cause = new ApiError(
+      {
+        method: 'POST',
+        url,
+      },
+      {
+        body: {
+          message,
+        },
+        ok: false,
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        url,
+        statusText: 'Internal Server Error',
+      },
+      message,
+    );
+    mockedApiService.setMockedResponse(cause);
+
+    await expect(
+      service.forward(
+        {
+          requestBody,
+        },
+        apiKey,
+      ),
+    ).rejects.toThrow(
+      new HttpException(
+        'Unknown Error on Tyntec API',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      ),
+    );
+  });
+
+  it('should throws an Bad request error for problem response with status 400', async () => {
+    const mockedResponse = {
+      status: 400,
+      detail: 'validate.request.whatsapp.contentType must not be empty',
+      title: 'Constraint Violation',
+    };
+
+    mockedApiService.setMockedResponse(mockedResponse);
+
+    await expect(
+      service.forward(
+        {
+          requestBody,
+        },
+        apiKey,
+      ),
+    ).rejects.toThrow(
+      new HttpException(mockedResponse.detail, mockedResponse.status),
+    );
+  });
+
+  it('should throws an Bad gateway error for unknown response', async () => {
+    const mockedResponse = {
+      some: 'Completely unknown response',
+    };
+
+    mockedApiService.setMockedResponse(mockedResponse);
+
+    await expect(
+      service.forward(
+        {
+          requestBody,
+        },
+        apiKey,
+      ),
+    ).rejects.toThrow(
+      new HttpException('Unknown Error on Tyntec API', HttpStatus.BAD_GATEWAY),
     );
   });
 });
