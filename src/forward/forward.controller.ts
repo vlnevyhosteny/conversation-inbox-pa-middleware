@@ -12,7 +12,7 @@ export class ForwardController {
 
   @Post('to/tyntec')
   public send(
-    @Body() body: ToTyntecBodyDto,
+    @Body() body: ToTyntecBodyDto, // TODO: produce invalid docs
     @Headers('tyntec-api-key') tyntecApiKey: string,
   ): Promise<SendMessageResponse> {
     return this.forwardToTyntecService.forward(body, tyntecApiKey);

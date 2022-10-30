@@ -25,6 +25,13 @@ export class ForwardToTyntecService {
           ).cause = e);
         }
 
+        if (e.status === HttpStatus.UNAUTHORIZED) {
+          throw (new HttpException(
+            'Access to Tyntec Conversation Inbox is not authorized',
+            HttpStatus.UNAUTHORIZED,
+          ).cause = e);
+        }
+
         if (e.status === HttpStatus.BAD_REQUEST) {
           throw (new HttpException(
             'Invalid request',
