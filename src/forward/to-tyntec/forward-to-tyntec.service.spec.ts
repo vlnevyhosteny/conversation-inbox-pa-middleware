@@ -105,35 +105,6 @@ describe('ForwardToTyntecService', () => {
     ).rejects.toThrow(new Error(errorMessage));
   });
 
-  it('should throws an Forbidden error for 403 response', async () => {
-    const cause = new ApiError(
-      {
-        method: 'POST',
-        url,
-      },
-      {
-        body: {
-          message: 'Forbidden',
-        },
-        ok: false,
-        status: HttpStatus.FORBIDDEN,
-        url,
-        statusText: 'Forbidden',
-      },
-      'Forbidden',
-    );
-    mockedApiService.setMockedResponse(cause);
-
-    await expect(
-      service.forward(
-        {
-          requestBody,
-        },
-        apiKey,
-      ),
-    ).rejects.toThrow(new HttpException('Forbidden', HttpStatus.FORBIDDEN));
-  });
-
   it('should throws an Unauthorized error for 401 response', async () => {
     const cause = new ApiError(
       {
@@ -162,73 +133,6 @@ describe('ForwardToTyntecService', () => {
       ),
     ).rejects.toThrow(
       new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED),
-    );
-  });
-
-  it('should throws an Bad request error for 400 response', async () => {
-    const message = 'Given test request is Bad Request';
-
-    const cause = new ApiError(
-      {
-        method: 'POST',
-        url,
-      },
-      {
-        body: {
-          message,
-        },
-        ok: false,
-        status: HttpStatus.BAD_REQUEST,
-        url,
-        statusText: 'Bad Request',
-      },
-      message,
-    );
-    mockedApiService.setMockedResponse(cause);
-
-    await expect(
-      service.forward(
-        {
-          requestBody,
-        },
-        apiKey,
-      ),
-    ).rejects.toThrow(new HttpException(message, HttpStatus.BAD_REQUEST));
-  });
-
-  it('should throws an Internal server error error for 500 response', async () => {
-    const message = 'Something is wrong';
-
-    const cause = new ApiError(
-      {
-        method: 'POST',
-        url,
-      },
-      {
-        body: {
-          message,
-        },
-        ok: false,
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
-        url,
-        statusText: 'Internal Server Error',
-      },
-      message,
-    );
-    mockedApiService.setMockedResponse(cause);
-
-    await expect(
-      service.forward(
-        {
-          requestBody,
-        },
-        apiKey,
-      ),
-    ).rejects.toThrow(
-      new HttpException(
-        'Unknown Error on Tyntec API',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      ),
     );
   });
 

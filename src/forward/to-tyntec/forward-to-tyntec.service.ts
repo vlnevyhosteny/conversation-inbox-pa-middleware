@@ -6,13 +6,12 @@ import {
   Problem,
   TyntecApiService,
 } from '../../tyntec';
+import { WithApiResponseHandling } from '../../tyntec/with-api-response-handling.service';
 import { ToTyntecBodyDto } from './to-tyntec.dto';
 
 @Injectable()
-export class ForwardToTyntecService {
-  constructor(
-    @Inject(TyntecApiService) private tyntecApiService: TyntecApiService,
-  ) {}
+export class ForwardToTyntecService extends WithApiResponseHandling {
+  @Inject(TyntecApiService) private tyntecApiService: TyntecApiService;
 
   public async forward(
     body: ToTyntecBodyDto,
@@ -41,41 +40,5 @@ export class ForwardToTyntecService {
         HttpStatus.BAD_GATEWAY,
       ).cause = e);
     }
-  }
-
-  private toHttpException(
-    status: HttpStatus,
-    cause: ApiError | Problem,
-  ): HttpException {
-    const message = (cause as Problem).detail ?? (cause as Error).message;
-
-    let exception: HttpException;
-    switch (status) {
-      case HttpStatus.FORBIDDEN:
-        exception = new HttpException(
-          message ?? 'Access to Tyntec Conversation Inbox forbidden',
-          HttpStatus.FORBIDDEN,
-        );
-        break;
-      case HttpStatus.UNAUTHORIZED:
-        exception = new HttpException(
-          message ?? 'Access to Tyntec Conversation Inbox is not authorized',
-          HttpStatus.UNAUTHORIZED,
-        );
-        break;
-      case HttpStatus.BAD_REQUEST:
-        exception = new HttpException(
-          message ?? 'Invalid request',
-          HttpStatus.BAD_REQUEST,
-        );
-        break;
-
-      default:
-        exception = new HttpException('Unknown Error on Tyntec API', status);
-    }
-
-    exception.cause = cause instanceof Error ? cause : new Error(cause.detail);
-
-    return exception;
   }
 }

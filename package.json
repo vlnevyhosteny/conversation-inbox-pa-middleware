@@ -76,7 +76,7 @@
     "coveragePathIgnorePatterns": [
       ".module.ts",
       "main.ts",
-      "<rootDir>/tyntec/*"
+      "<rootDir>/tyntec/__generated__"
     ]
   }
 }
