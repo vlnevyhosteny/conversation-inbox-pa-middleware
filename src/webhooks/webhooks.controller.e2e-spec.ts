@@ -1,7 +1,10 @@
 import { INestApplication, Injectable } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import { compileTestingModule } from '../../test/helpers';
-import { WebhooksController } from './webhooks.controller';
+import {
+  DELETING_PATH_HEADER_KEY,
+  WebhooksController,
+} from './webhooks.controller';
 import { ConfigureResponse, WebhooksService } from './webhooks.service';
 import * as request from 'supertest';
 import { AccountConfiguration } from '../tyntec';
@@ -63,7 +66,7 @@ describe('WebhooksController', () => {
         .expect(201)
         .expect(successfullResponse)
         .expect((res) => {
-          expect(res.headers['deleting-path']).toBe(webhookDeletePath);
+          expect(res.headers[DELETING_PATH_HEADER_KEY]).toBe(webhookDeletePath);
         });
     });
   });

@@ -3,7 +3,7 @@
 /* eslint-disable */
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
-import { AxiosHttpRequest } from './core/AxiosHttpRequest';
+import { FetchHttpRequest } from './core/FetchHttpRequest';
 
 import { ApiAccountConfigurationsService } from './services/ApiAccountConfigurationsService';
 import { ChannelConfigurationsService } from './services/ChannelConfigurationsService';
@@ -19,7 +19,7 @@ export class TyntecApi {
 
   public readonly request: BaseHttpRequest;
 
-  constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = AxiosHttpRequest) {
+  constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = FetchHttpRequest) {
     this.request = new HttpRequest({
       BASE: config?.BASE ?? 'https://api.tyntec.com/conversations/v3',
       VERSION: config?.VERSION ?? '3.0',

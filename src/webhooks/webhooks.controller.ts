@@ -12,6 +12,8 @@ import { AccountConfiguration } from '../tyntec';
 import { CreateWebhookDto } from './webhooks.dtos';
 import { WebhooksService } from './webhooks.service';
 
+export const DELETING_PATH_HEADER_KEY = 'location';
+
 @Controller('webhooks')
 export class WebhooksController {
   constructor(
@@ -29,7 +31,7 @@ export class WebhooksController {
       tyntecApiKey,
     );
 
-    response.set('deleting-path', creationResponse.webhookDeletePath);
+    response.set(DELETING_PATH_HEADER_KEY, creationResponse.webhookDeletePath);
     response.send(creationResponse.result);
     response.status(HttpStatus.OK);
 
