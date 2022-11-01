@@ -13,13 +13,13 @@ export abstract class WithApiResponseHandling {
     switch (status) {
       case HttpStatus.FORBIDDEN:
         exception = new HttpException(
-          message ?? 'Access to Tyntec Conversation Inbox forbidden',
+          message ?? 'Access to Tyntec Conversation forbidden',
           HttpStatus.FORBIDDEN,
         );
         break;
       case HttpStatus.UNAUTHORIZED:
         exception = new HttpException(
-          message ?? 'Access to Tyntec Conversation Inbox is not authorized',
+          message ?? 'Access to Tyntec Conversation is not authorized',
           HttpStatus.UNAUTHORIZED,
         );
         break;

@@ -71,17 +71,12 @@ describe('ForwardToTyntecService', () => {
   it('should forward message to Tyntec', async () => {
     const succesfullResponse = {
       messageId: randomUUID(),
-      acceptedAt: new Date(),
+      timestamp: new Date(),
     };
 
     mockedApiService.setMockedResponse(succesfullResponse);
 
-    const result = await service.forward(
-      {
-        requestBody,
-      },
-      apiKey,
-    );
+    const result = await service.forward(requestBody, apiKey);
 
     expect(result).toMatchObject(succesfullResponse);
   });
@@ -90,14 +85,9 @@ describe('ForwardToTyntecService', () => {
     const errorMessage = 'Something is wrong with middleware';
     mockedApiService.setMockedResponse(new Error(errorMessage));
 
-    await expect(
-      service.forward(
-        {
-          requestBody,
-        },
-        apiKey,
-      ),
-    ).rejects.toThrow(new Error(errorMessage));
+    await expect(service.forward(requestBody, apiKey)).rejects.toThrow(
+      new Error(errorMessage),
+    );
   });
 
   it('should throws an Unauthorized error for 401 response', async () => {
@@ -119,14 +109,7 @@ describe('ForwardToTyntecService', () => {
     );
     mockedApiService.setMockedResponse(cause);
 
-    await expect(
-      service.forward(
-        {
-          requestBody,
-        },
-        apiKey,
-      ),
-    ).rejects.toThrow(
+    await expect(service.forward(requestBody, apiKey)).rejects.toThrow(
       new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED),
     );
   });
@@ -140,14 +123,7 @@ describe('ForwardToTyntecService', () => {
 
     mockedApiService.setMockedResponse(mockedResponse);
 
-    await expect(
-      service.forward(
-        {
-          requestBody,
-        },
-        apiKey,
-      ),
-    ).rejects.toThrow(
+    await expect(service.forward(requestBody, apiKey)).rejects.toThrow(
       new HttpException(mockedResponse.detail, mockedResponse.status),
     );
   });
@@ -159,14 +135,7 @@ describe('ForwardToTyntecService', () => {
 
     mockedApiService.setMockedResponse(mockedResponse);
 
-    await expect(
-      service.forward(
-        {
-          requestBody,
-        },
-        apiKey,
-      ),
-    ).rejects.toThrow(
+    await expect(service.forward(requestBody, apiKey)).rejects.toThrow(
       new HttpException('Unknown Error on Tyntec API', HttpStatus.BAD_GATEWAY),
     );
   });
