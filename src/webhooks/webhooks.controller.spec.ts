@@ -63,7 +63,7 @@ describe('WebhooksController', () => {
 
       return request(app.getHttpServer())
         .post('/webhooks')
-        .expect(201)
+        .expect(200)
         .expect(successfullResponse)
         .expect((res) => {
           expect(res.headers[DELETING_PATH_HEADER_KEY]).toBe(webhookDeletePath);
