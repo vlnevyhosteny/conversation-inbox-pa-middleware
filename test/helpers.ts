@@ -5,8 +5,12 @@ import { ForwardToTyntecService } from '../src/forward';
 import { TyntecApiService } from '../src/tyntec';
 
 export const compileTestingModule = async (
-  { providers }: Pick<ModuleMetadata, 'providers'> = {
+  {
+    providers,
+    controllers,
+  }: Pick<ModuleMetadata, 'providers' | 'controllers'> = {
     providers: [TyntecApiService, ForwardToTyntecService],
+    controllers: [],
   },
 ) =>
   Test.createTestingModule({
@@ -16,4 +20,5 @@ export const compileTestingModule = async (
       }),
     ],
     providers,
+    controllers,
   }).compile();

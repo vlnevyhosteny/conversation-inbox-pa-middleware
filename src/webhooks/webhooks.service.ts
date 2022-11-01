@@ -1,13 +1,9 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { configKeys } from '../config';
-import {
-  AccountConfiguration,
-  ApiError,
-  Callback,
-  TyntecApiService,
-} from '../tyntec';
+import { AccountConfiguration, ApiError, TyntecApiService } from '../tyntec';
 import { WithApiResponseHandling } from '../tyntec/with-api-response-handling.service';
+import { CreateWebhookDto } from './webhooks.dtos';
 
 export interface ConfigureResponse {
   result: AccountConfiguration;
@@ -21,7 +17,7 @@ export class WebhooksService extends WithApiResponseHandling {
   @Inject(ConfigService) private configService: ConfigService;
 
   public async configure(
-    body: Callback,
+    body: CreateWebhookDto,
     tyntecApiKey: string,
   ): Promise<ConfigureResponse> {
     try {
