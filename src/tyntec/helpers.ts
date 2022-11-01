@@ -5,5 +5,5 @@ export function isMessageResponse(
 ): response is MessageResponse {
   const possibly = response as MessageResponse;
 
-  return possibly.acceptedAt !== undefined && possibly.messageId !== undefined;
+  return possibly.timestamp !== undefined && possibly.messageId !== undefined;
 }

@@ -12,5 +12,5 @@ export class TyntecApiService {
   }
 
   public api = (token: string) =>
-    new TyntecApi({ TOKEN: token, BASE: this.baseUrl });
+    new TyntecApi({ BASE: this.baseUrl, HEADERS: { apikey: token } });
 }

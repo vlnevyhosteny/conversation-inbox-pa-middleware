@@ -20,7 +20,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "generate:tyntec-api-client": "openapi --useOptions --indent 2 --name TyntecApi --useUnionTypes true --input ./src/tyntec/openapi.yaml --output ./src/tyntec/__generated__"
+    "generate:tyntec-api-client": "openapi --useOptions --indent 2 --name TyntecApi --client axios --useUnionTypes true --input ./src/tyntec/openapi.yaml --output ./src/tyntec/__generated__"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

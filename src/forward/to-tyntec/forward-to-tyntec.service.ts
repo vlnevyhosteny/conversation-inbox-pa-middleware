@@ -19,7 +19,9 @@ export class ForwardToTyntecService extends WithApiResponseHandling {
     try {
       const response = await this.tyntecApiService
         .api(tyntecApiKey)
-        .messaging.sendMessage(body);
+        .messaging.sendMessage({
+          requestBody: body,
+        });
 
       if (isMessageResponse(response)) {
         return response;

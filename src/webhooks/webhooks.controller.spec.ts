@@ -6,7 +6,7 @@ import {
   WebhooksController,
 } from './webhooks.controller';
 import { ConfigureResponse, WebhooksService } from './webhooks.service';
-import * as request from 'supertest';
+import request from 'supertest';
 import { AccountConfiguration } from '../tyntec';
 
 @Injectable()

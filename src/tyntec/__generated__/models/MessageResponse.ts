@@ -13,6 +13,6 @@ export type MessageResponse = {
   /**
    * Point in time when the API confirms that the message request was accepted
    */
-  acceptedAt: string;
+  timestamp: string;
 };
 
