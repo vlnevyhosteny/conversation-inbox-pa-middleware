@@ -3,9 +3,6 @@ name: Release
 on:
   workflow_run:
     workflows: ['Tests']
-    branches:
-      - main
-      - beta
     types:
       - completed
 
