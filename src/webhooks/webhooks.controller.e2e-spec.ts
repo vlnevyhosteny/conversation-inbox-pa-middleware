@@ -19,7 +19,7 @@ class MockedWebhooksService {
     this.mockedResponse = response;
   }
 
-  public configure = (...params: any) => this.mockedResponse;
+  public configure = (..._: any) => this.mockedResponse;
 }
 
 describe('WebhooksController', () => {

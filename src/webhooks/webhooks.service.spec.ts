@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TestingModule } from '@nestjs/testing';
-import exp from 'constants';
 import { compileTestingModule } from '../../test/helpers';
 import { configKeys } from '../config';
 import { ApiError, TyntecApiService } from '../tyntec';
@@ -17,7 +16,7 @@ class MockedTyntecApiService {
     this.mockedResponse = response;
   }
 
-  public api = (...params: any) => ({
+  public api = (..._: any) => ({
     apiAccountConfigurations: {
       updateAccountCallback: (_: unknown) => {
         if (this.mockedResponse instanceof Error) {

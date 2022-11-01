@@ -1,9 +1,4 @@
-import {
-  HttpCode,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TestingModule } from '@nestjs/testing';
 import { randomUUID } from 'crypto';
@@ -23,7 +18,7 @@ class MockedTyntecApiService {
     this.mockedResponse = response;
   }
 
-  public api = (...params: any) => ({
+  public api = (..._: any) => ({
     messaging: {
       sendMessage: (_: ToTyntecBodyDto) => {
         if (this.mockedResponse instanceof Error) {

@@ -1,2 +1,2 @@
-export * from './forward.controller'
-export * from './to-tyntec/forward-to-tyntec.service'
+export * from './forward.controller';
+export * from './to-tyntec/forward-to-tyntec.service';

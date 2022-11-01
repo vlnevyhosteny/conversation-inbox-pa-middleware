@@ -3,7 +3,6 @@ import {
   ApiError,
   isMessageResponse,
   MessageResponse,
-  Problem,
   TyntecApiService,
 } from '../../tyntec';
 import { WithApiResponseHandling } from '../../tyntec/with-api-response-handling.service';
