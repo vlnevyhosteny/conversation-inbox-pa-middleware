@@ -14,6 +14,18 @@ Middleware to integrate Microsoft Power Automate with Tyntec Conversation API.
 $ yarn install
 ```
 
+## Configuration
+
+Before you run an app create relevant config file:
+
+- Local development `.env.development.local` (`.env.sample` can be used as a template)
+- Production `.env`
+
+| Property            | Type   | Optional | Description                                                           |
+| ------------------- | ------ | -------- | --------------------------------------------------------------------- |
+| TYNTEC_BASE_URL     | string | No       | Base URL of Tyntec Conversation API.                                  |
+| WEBHOOK_DELETE_PATH | string | No       | Path that will be returned as location header after creating webhook. |
+
 ## Running the app
 
 ```bash
