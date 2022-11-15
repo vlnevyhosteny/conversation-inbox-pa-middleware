@@ -61,6 +61,10 @@ $ docker-compose up
 
 For production deploy use `--target production`.
 
+## API Docs
+
+Swagger documentation of middlewares API is located on `/docs` endpoint.
+
 ## License
 
 Nest is [MIT licensed](LICENSE).
