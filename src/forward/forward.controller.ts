@@ -69,13 +69,6 @@ export class ForwardController {
       );
     }
 
-    if (contentType !== body.content.contentType) {
-      throw new HttpException(
-        `ContentType in params [${contentType}] not equal with contentType in body [${body.content?.contentType}].`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
     return this.forwardToTyntecService.forward(body, tyntecApiKey);
   }
 }
