@@ -1,3 +1,20 @@
+# [1.1.0](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/compare/v1.0.0...v1.1.0) (2022-11-21)
+
+
+### Bug Fixes
+
+* add api docs section into readme ([987810b](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/987810baae4502c7d9ceb079a138ecc856c4b43e))
+* change tyntec-api-key header to apiKey ([0e3e7d0](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/0e3e7d067cec6fe647d7b888343ae248fa5f347f))
+* **forward:** remove check for same contentTypy in body and path ([240f40e](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/240f40ea0850b510c728e306d1d1b158d89a5a3f))
+* **infra:** release stage ([129ec71](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/129ec7164b218e2e209780dc525bb5cf93bfa24f))
+* missing configuration section in docs ([21097f7](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/21097f7d6c230fa5531da015ba94c185e99cfcd6))
+
+
+### Features
+
+* docker config and specification ([a0af448](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/a0af448ffbeb5af2500e46dc854a80a487d4dff5))
+* use channel based webhook eps ([f624028](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/f624028f9b24078ebf7a69cb79da0bf34dc06af5))
+
 # 1.0.0 (2022-11-01)
 
 
