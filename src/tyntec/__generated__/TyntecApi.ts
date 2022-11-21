@@ -5,16 +5,14 @@ import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { AxiosHttpRequest } from './core/AxiosHttpRequest';
 
-import { ApiAccountConfigurationsService } from './services/ApiAccountConfigurationsService';
-import { ChannelConfigurationsService } from './services/ChannelConfigurationsService';
+import { CallbackConfigurationService } from './services/CallbackConfigurationService';
 import { MessagingService } from './services/MessagingService';
 
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 
 export class TyntecApi {
 
-  public readonly apiAccountConfigurations: ApiAccountConfigurationsService;
-  public readonly channelConfigurations: ChannelConfigurationsService;
+  public readonly callbackConfiguration: CallbackConfigurationService;
   public readonly messaging: MessagingService;
 
   public readonly request: BaseHttpRequest;
@@ -32,8 +30,7 @@ export class TyntecApi {
       ENCODE_PATH: config?.ENCODE_PATH,
     });
 
-    this.apiAccountConfigurations = new ApiAccountConfigurationsService(this.request);
-    this.channelConfigurations = new ChannelConfigurationsService(this.request);
+    this.callbackConfiguration = new CallbackConfigurationService(this.request);
     this.messaging = new MessagingService(this.request);
   }
 }

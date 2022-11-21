@@ -53,141 +53,77 @@ paths:
           $ref: '#/components/responses/Default'
 
   # Webhooks
-  /configurations:
-    get:
-      tags:
-        - 'API Account Configurations'
-      summary: Get account configuration
-      operationId: getAccountConfiguration
-      description: Returns the configuration of the API account
-      responses:
-        200:
-          description: The configuration of the account
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountConfiguration'
-  /configurations/callbacks:
+  /configurations/channels/whatsapp/phone-numbers/{phone-number}/callbacks:
+    parameters:
+      - $ref: '#/components/parameters/PhoneNumber'
     put:
       tags:
-        - 'API Account Configurations'
+        - 'Callback configuration'
       summary: Update the callback
-      operationId: updateAccountCallback
-      description: Update the callback settings of the account. **Note** The complete object must be provided
+      operationId: updateWhatsAppChannelCallback
+      description: Update the callback settings of a specific phone number.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Callback'
+              $ref: '#/components/schemas/ChannelCallback'
       responses:
         200:
-          description: The configuration of the account
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountConfiguration'
-  /configurations/mediaCredentials:
+          $ref: '#/components/schemas/WhatsAppChannelResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        default:
+          $ref: '#/components/responses/Default'
+
+  /configurations/channels/sms/phone-numbers/{phone-number}/callbacks:
+    parameters:
+      - $ref: '#/components/parameters/PhoneNumber'
     put:
       tags:
-        - 'API Account Configurations'
-      summary: Update the media credentials
-      operationId: updateAccountMediaCredentialsCallback
-      description: Update the media credentials of the account.
+        - 'Callback configuration'
+      summary: Update the callback
+      operationId: updateSMSChannelCallback
+      description: Update the callback settings for a specific inbound phone number. **Note** The complete object must be provided
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MediaCredentials'
+              $ref: '#/components/schemas/ChannelCallback'
       responses:
         200:
-          description: The configuration of the account
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountConfiguration'
-    delete:
+          $ref: '#/components/schemas/SMSChannelResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        default:
+          $ref: '#/components/responses/Default'
+
+  /configurations/channels/viber/service-ids/{service-id}/callbacks:
+    parameters:
+      - $ref: '#/components/parameters/ServiceId'
+    put:
       tags:
-        - 'API Account Configurations'
-      summary: Remove the media credentials
-      operationId: removeAccountMediaCredentials
-      description: Remove the media credentials of the account.
+        - 'Callback configuration'
+      summary: Update the callback
+      operationId: updateViberChannelCallback
+      description: Update the callback settings of a specific Service ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChannelCallback'
       responses:
         200:
-          description: The configuration of the account
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountConfiguration'
-  /configurations/channels:
-    get:
-      tags:
-        - 'Channel Configurations'
-      summary: List all channels
-      operationId: listAllChannels
-      description: List all channels available to your API account
-      responses:
-        200:
-          $ref: '#/components/responses/ListAllChannelsResponse'
-  /configurations/channels/sms:
-    get:
-      tags:
-        - 'Channel Configurations'
-      summary: List all SMS channels
-      operationId: listAllSMSChannels
-      description: List all Inbound SMS channels available to your API account
-      responses:
-        200:
-          $ref: '#/components/responses/ListAllSMSChannelsResponse'
-  /configurations/channels/telegram:
-    get:
-      tags:
-        - 'Channel Configurations'
-      summary: List all Telegram channels
-      operationId: listAllTelegramChannels
-      description: List all Telegram channels available to your API account
-      responses:
-        200:
-          $ref: '#/components/responses/ListAllTelegramChannelsResponse'
-  /configurations/channels/mms:
-    get:
-      tags:
-        - 'Channel Configurations'
-      summary: List all Mms channels
-      operationId: listAllMmsChannels
-      description: List all Mms channels available to your API account
-      responses:
-        200:
-          $ref: '#/components/responses/ListAllMmsChannelsResponse'
-  /configurations/channels/viber:
-    get:
-      tags:
-        - 'Channel Configurations'
-      summary: List all Viber channels
-      operationId: listAllViberChannels
-      description: List all Viber channels available to your API account
-      responses:
-        200:
-          $ref: '#/components/responses/ListAllViberChannelsResponse'
-  /configurations/channels/wechat:
-    get:
-      tags:
-        - 'Channel Configurations'
-      summary: List all WeChat channels
-      operationId: listAllWeChatChannels
-      description: List all WeChat channels available to your API account
-      responses:
-        200:
-          $ref: '#/components/responses/ListAllWeChatChannelsResponse'
-  /configurations/channels/whatsapp:
-    get:
-      tags:
-        - 'Channel Configurations'
-      summary: List all WhatsApp channels
-      operationId: listAllWhatsAppChannels
-      description: List all WhatsApp channels available to your API account
-      responses:
-        200:
-          $ref: '#/components/responses/ListAllWhatsAppChannelsResponse'
+          $ref: '#/components/schemas/ViberChannelResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        default:
+          $ref: '#/components/responses/Default'
 
 components:
   securitySchemes:
@@ -235,48 +171,6 @@ components:
             status: 403
 
     # Webhooks
-    ListAllChannelsResponse:
-      description: A list of all channel configurations
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AllChannelResponses'
-    ListAllSMSChannelsResponse:
-      description: A list of SMS channel configurations
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SMSChannelResponses'
-    ListAllTelegramChannelsResponse:
-      description: A list of Telegram channel configurations
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/TelegramChannelResponses'
-    ListAllMmsChannelsResponse:
-      description: A list of Mms channel configurations
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MmsChannelResponses'
-    ListAllViberChannelsResponse:
-      description: A list of Viber channel configurations
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ViberChannelResponses'
-    ListAllWeChatChannelsResponse:
-      description: A list of WeChat channel configurations
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/WeChatChannelResponses'
-    ListAllWhatsAppChannelsResponse:
-      description: A list of Whatsapp channel configurations
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/WhatsAppChannelResponses'
 
   schemas:
     # Messaging
@@ -378,176 +272,7 @@ components:
             Unexpected end-of-input: expected close marker for Object (start marker at [Source: UNKNOWN; line: -1, column: -1) at [Source: UNKNOWN; line: 1, column: 97]
 
     # Webhooks
-    AccountConfiguration:
-      type: object
-      description: A configuration of an API account
-      properties:
-        scopes:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountScopes'
-        callback:
-          $ref: '#/components/schemas/Callback'
-        config:
-          $ref: '#/components/schemas/DetailedAccountConfig'
-    AccountScopes:
-      type: string
-      description: Scopes available to your account.
-      enum:
-        - channels:read
-        - channels.telegram:write
-        - channels.wechat:write
-        - callbacks:read
-        - callbacks:write
-        - credentials:read
-        - credentials:write
-        - media:read
-        - media:write
-    Callback:
-      type: object
-      description: A configuration of callbacks to your system
-      properties:
-        callbackVersion:
-          type: string
-          description: The event version to be used.
-          enum:
-            - '2.11'
-            - '2.12'
-          default: '2.12'
-        signature:
-          $ref: '#/components/schemas/Signature'
-        header:
-          $ref: '#/components/schemas/Header'
-        inboundMessageUrl:
-          type: string
-          description: A webhook for events related to inbound messages
-          pattern: '^https://.*'
-          maxLength: 2000
-        messageStatusUrl:
-          type: string
-          description: A webhook for events related to message status changes
-          pattern: '^https://.*'
-          maxLength: 2000
-        eventFilter:
-          type: array
-          description: |
-            A list of status events to listen to. If empty, all events are submitted.
-          items:
-            $ref: '#/components/schemas/EventTypes'
-          minLength: 0
-          default: []
-    EventTypes:
-      type: string
-      description: Determines which kind of event is emitted by the API
-      enum:
-        - MessageStatus::accepted
-        - MessageStatus::channelFailed
-        - MessageStatus::deleted
-        - MessageStatus::delivered
-        - MessageStatus::failed
-        - MessageStatus::seen
-        - MessageStatus::unknown
-    Signature:
-      type: object
-      description: |
-        A signature configuration for incoming events. Can be disabled by setting the
-        signature property to empty.
-      required:
-        - secret
-        - method
-      properties:
-        secret:
-          type: string
-          description: A shared secret key
-          minLength: 8
-          maxLength: 125
-        method:
-          type: string
-          description: A cryptographic algorithm used for signature calculation
-          enum:
-            - HS256
-            - HS512
-    Header:
-      type: object
-      description: |
-        An additional custom header to be sent with the event transmission. Can be used for setting
-        authentication tokens, or similar.
-      required:
-        - key
-        - value
-      properties:
-        key:
-          description: The name of the HTTP header
-          type: string
-          minLength: 4
-          maxLength: 125
-        value:
-          type: string
-          description: The value of the HTTP header
-          minLength: 8
-          maxLength: 1024
-    DetailedAccountConfig:
-      type: object
-      properties:
-        mediaCredentials:
-          $ref: '#/components/schemas/MediaCredentials'
-    MediaCredentials:
-      type: object
-      description: Credentials to download media from your remote service
-      oneOf:
-        - $ref: '#/components/schemas/OAuth2MediaCredentials'
-        - $ref: '#/components/schemas/BasicMediaCredentials'
-    OAuth2MediaCredentials:
-      type: object
-      description: Oauth 2 credentials. **Only** supports _client secret_ flow
-      properties:
-        type:
-          type: string
-          description: Determines the type of credentials. Always _oauth2_.
-          enum:
-            - oauth2
-        oauth2:
-          type: object
-          required:
-            - clientId
-            - clientSecret
-            - url
-          properties:
-            clientId:
-              type: string
-            clientSecret:
-              type: string
-            url:
-              type: string
-    BasicMediaCredentials:
-      type: object
-      properties:
-        type:
-          type: string
-          description: Determines the type of credentials. Always _basic_.
-          enum:
-            - basic
-        basic:
-          type: object
-          required:
-            - username
-            - password
-          properties:
-            username:
-              type: string
-            password:
-              type: string
 
-    AllChannelResponses:
-      type: array
-      items:
-        anyOf:
-          - $ref: '#/components/schemas/SMSChannelResponse'
-          - $ref: '#/components/schemas/TelegramChannelResponse'
-          - $ref: '#/components/schemas/MmsChannelResponse'
-          - $ref: '#/components/schemas/ViberChannelResponse'
-          - $ref: '#/components/schemas/WeChatChannelResponse'
-          - $ref: '#/components/schemas/WhatsAppChannelResponse'
     ChannelResponse:
       type: object
       description: General channel configuration
@@ -563,6 +288,83 @@ components:
         name:
           type: string
           maxLength: 256
+      discriminator:
+        propertyName: channel
+
+    WhatsAppChannelResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ChannelResponse'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/PhoneNumberId'
+          example:
+            channel: whatsapp
+            scopes:
+              - messages:read
+              - profile:read
+              - callbacks:write
+              - callbacks:read
+            id:
+              phoneNumber: '12341234'
+            callback:
+              callbackVersion: '2.11'
+              inboundMessageUrl: https://your.server.com/inbound
+              messageStatusUrl: https://your.server.com/status
+              eventFilter:
+                - MessageStatus::accepted
+                - MessageStatus::delivered
+
+    SMSChannelResponse:
+      allOf:
+        - $ref: '#/components/schemas/ChannelResponse'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/PhoneNumberId'
+          example:
+            channel: sms
+            scopes:
+              - messages:read
+              - callbacks:write
+              - callbacks:read
+            id:
+              phoneNumber: '12341234'
+            callback:
+              callbackVersion: '2.11'
+              inboundMessageUrl: https://your.server.com/inbound
+              messageStatusUrl: https://your.server.com/status
+              eventFilter:
+                - MessageStatus::accepted
+                - MessageStatus::delivered
+
+    ViberChannelResponse:
+      allOf:
+        - $ref: '#/components/schemas/ChannelResponse'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/ServiceId'
+            config:
+              $ref: '#/components/schemas/ViberChannelConfigs'
+          example:
+            channel: viber
+            scopes:
+              - messages:read
+              - callbacks:write
+              - callbacks:read
+            id:
+              serviceId: '1234'
+            name: Your Company
+            callback:
+              callbackVersion: '2.11'
+              inboundMessageUrl: https://your.server.com/inbound
+              messageStatusUrl: https://your.server.com/status
+              eventFilter:
+                - MessageStatus::accepted
+                - MessageStatus::delivered
+
     ChannelScopes:
       type: string
       description: Scopes available to a channel.
@@ -601,178 +403,31 @@ components:
             $ref: '#/components/schemas/EventTypes'
           minLength: 0
           default: []
-    WeChatChannelResponses:
-      type: array
-      items:
-        $ref: '#/components/schemas/WeChatChannelResponse'
-    WeChatChannelResponse:
+
+    EventTypes:
+      type: string
+      description: Determines which kind of event is emitted by the API
+      enum:
+        - MessageStatus::accepted
+        - MessageStatus::channelFailed
+        - MessageStatus::deleted
+        - MessageStatus::delivered
+        - MessageStatus::failed
+        - MessageStatus::seen
+        - MessageStatus::unknown
+
+    ViberChannelConfigs:
       type: object
-      allOf:
-        - $ref: '#/components/schemas/ChannelResponse'
+      required:
+        - serviceType
       properties:
-        id:
-          $ref: '#/components/schemas/WeChatId'
-        credentials:
-          $ref: '#/components/schemas/WeChatCredentials'
-      example:
-        channel: wechat
-        scopes:
-          - messages:read
-          - callbacks:write
-          - callbacks:read
-        id:
-          weChatId: '12341234'
-        name: your application
-        credentials:
-          appId: '12334'
-          appSecret: 98ujhkjnvjhb832rbnj
-        callback:
-          callbackVersion: '2.11'
-          inboundMessageUrl: https://your.server.com/inbound
-          messageStatusUrl: https://your.server.com/status
-          eventFilter:
-            - MessageStatus::accepted
-            - MessageStatus::dispatched
-    TelegramChannelResponses:
-      type: array
-      items:
-        $ref: '#/components/schemas/TelegramChannelResponse'
-    TelegramChannelResponse:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/ChannelResponse'
-      properties:
-        id:
-          $ref: '#/components/schemas/TelegramId'
-        credentials:
-          $ref: '#/components/schemas/TelegramCredentials'
-      example:
-        channel: telegram
-        scopes:
-          - messages:read
-          - callbacks:write
-          - callbacks:read
-        id:
-          botId: '12341234'
-        name: your bot!
-        credentials:
-          botToken: 987923hrbnhjfedf87z324:fsdhf8n2r543j4hgr
-        callback:
-          callbackVersion: '2.11'
-          inboundMessageUrl: https://your.server.com/inbound
-          messageStatusUrl: https://your.server.com/status
-          eventFilter:
-            - MessageStatus::accepted
-            - MessageStatus::dispatched
-    MmsChannelResponses:
-      type: array
-      items:
-        $ref: '#/components/schemas/MmsChannelResponse'
-    MmsChannelResponse:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/ChannelResponse'
-      properties:
-        id:
-          $ref: '#/components/schemas/PhoneNumberId'
-      example:
-        channel: mms
-        scopes:
-          - messages:read
-          - callbacks:write
-          - callbacks:read
-        id:
-          phoneNumber: '15559876543'
-        name: your name
-        callback:
-          callbackVersion: '2.11'
-          inboundMessageUrl: https://your.server.com/inbound
-          messageStatusUrl: https://your.server.com/status
-          eventFilter:
-            - MessageStatus::accepted
-            - MessageStatus::dispatched
-    SMSChannelResponses:
-      type: array
-      items:
-        $ref: '#/components/schemas/SMSChannelResponse'
-    SMSChannelResponse:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/ChannelResponse'
-      properties:
-        id:
-          $ref: '#/components/schemas/PhoneNumberId'
-      example:
-        channel: sms
-        scopes:
-          - messages:read
-          - callbacks:write
-          - callbacks:read
-        id:
-          phoneNumber: '12341234'
-        callback:
-          callbackVersion: '2.11'
-          inboundMessageUrl: https://your.server.com/inbound
-          messageStatusUrl: https://your.server.com/status
-          eventFilter:
-            - MessageStatus::accepted
-            - MessageStatus::delivered
-    WhatsAppChannelResponses:
-      type: array
-      items:
-        $ref: '#/components/schemas/WhatsAppChannelResponse'
-    WhatsAppChannelResponse:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/ChannelResponse'
-      properties:
-        id:
-          $ref: '#/components/schemas/PhoneNumberId'
-      example:
-        channel: whatsapp
-        scopes:
-          - messages:read
-          - profile:read
-          - callbacks:write
-          - callbacks:read
-        id:
-          phoneNumber: '12341234'
-        callback:
-          callbackVersion: '2.11'
-          inboundMessageUrl: https://your.server.com/inbound
-          messageStatusUrl: https://your.server.com/status
-          eventFilter:
-            - MessageStatus::accepted
-            - MessageStatus::delivered
-    ViberChannelResponses:
-      type: array
-      items:
-        $ref: '#/components/schemas/ViberChannelResponse'
-    ViberChannelResponse:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/ChannelResponse'
-      properties:
-        id:
-          $ref: '#/components/schemas/ServiceId'
-        config:
-          $ref: '#/components/schemas/ViberChannelConfigs'
-      example:
-        channel: viber
-        scopes:
-          - messages:read
-          - callbacks:write
-          - callbacks:read
-        id:
-          serviceId: '1234'
-        name: Your Company
-        callback:
-          callbackVersion: '2.11'
-          inboundMessageUrl: https://your.server.com/inbound
-          messageStatusUrl: https://your.server.com/status
-          eventFilter:
-            - MessageStatus::accepted
-            - MessageStatus::delivered
+        serviceType:
+          type: string
+          enum:
+            - session
+            - two-way
+            - one-way
+
     #
     # Channel id specs
     #
@@ -788,45 +443,26 @@ components:
       properties:
         serviceId:
           type: string
-    WeChatId:
-      type: object
-      description: The definition of the WeChat id
-      properties:
-        weChatId:
-          type: string
 
-    TelegramId:
-      type: object
-      description: The definition of the Telegram id
-      properties:
-        botId:
-          type: string
+  parameters:
+    PhoneNumber:
+      name: phone-number
+      in: path
+      required: true
+      description: The phone number used for WhatsApp messaging
+      schema:
+        type: integer
+        minLength: 4
+        maxLength: 15
+      example: 4923147790717
 
-    #
-    # Channel Credential Spec
-    #
-    WeChatCredentials:
-      type: object
-      properties:
-        appId:
-          type: string
-        appSecret:
-          type: string
-
-    TelegramCredentials:
-      type: object
-      properties:
-        botToken:
-          type: string
-
-    ViberChannelConfigs:
-      type: object
-      required:
-        - serviceType
-      properties:
-        serviceType:
-          type: string
-          enum:
-            - session
-            - two-way
-            - one-way
+    ServiceId:
+      name: service-id
+      in: path
+      required: true
+      description: The Service ID used for a Viber Channel.
+      schema:
+        type: integer
+        minLength: 4
+        maxLength: 15
+      example: 4923147790717

@@ -1,12 +1,16 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { configKeys } from '../config';
-import { AccountConfiguration, ApiError, TyntecApiService } from '../tyntec';
+import { ApiError, TyntecApiService } from '../tyntec';
 import { WithApiResponseHandling } from '../tyntec/with-api-response-handling.service';
-import { CreateWebhookDto } from './webhooks.dtos';
+import {
+  ChannelsDto,
+  CreateWebhookDto,
+  CreateWebhookResponseDto,
+} from './webhooks.dtos';
 
 export interface ConfigureResponse {
-  result: AccountConfiguration;
+  result: CreateWebhookResponseDto;
   webhookDeletePath: string;
 }
 
@@ -17,15 +21,36 @@ export class WebhooksService extends WithApiResponseHandling {
   @Inject(ConfigService) private configService: ConfigService;
 
   public async configure(
+    channel: ChannelsDto,
+    phoneNumber: number,
     body: CreateWebhookDto,
     tyntecApiKey: string,
   ): Promise<ConfigureResponse> {
     try {
-      const result = await this.tyntecApiService
-        .api(tyntecApiKey)
-        .apiAccountConfigurations.updateAccountCallback({
-          requestBody: body,
-        });
+      let result: CreateWebhookResponseDto;
+
+      const api = this.tyntecApiService.api(tyntecApiKey).callbackConfiguration;
+
+      switch (channel) {
+        case ChannelsDto.whatsapp:
+          result = await api.updateWhatsAppChannelCallback({
+            phoneNumber,
+            requestBody: body,
+          });
+          break;
+        case ChannelsDto.viber:
+          result = await api.updateViberChannelCallback({
+            serviceId: phoneNumber,
+            requestBody: body,
+          });
+          break;
+        case ChannelsDto.sms:
+          result = await api.updateSmsChannelCallback({
+            phoneNumber,
+            requestBody: body,
+          });
+          break;
+      }
 
       return {
         result,

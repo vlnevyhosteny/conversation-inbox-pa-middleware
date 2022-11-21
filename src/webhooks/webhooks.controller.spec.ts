@@ -7,7 +7,7 @@ import {
 } from './webhooks.controller';
 import { ConfigureResponse, WebhooksService } from './webhooks.service';
 import request from 'supertest';
-import { AccountConfiguration } from '../tyntec';
+import { ChannelsDto, CreateWebhookResponseDto } from './webhooks.dtos';
 
 @Injectable()
 class MockedWebhooksService {
@@ -25,6 +25,9 @@ class MockedWebhooksService {
 describe('WebhooksController', () => {
   let app: INestApplication;
   let mockedService: MockedWebhooksService;
+
+  const channel = ChannelsDto.whatsapp;
+  const phoneNumber = 15559876543;
 
   beforeEach(async () => {
     const module: TestingModule = await compileTestingModule({
@@ -46,10 +49,10 @@ describe('WebhooksController', () => {
   describe('/POST webhooks', () => {
     it('successfully creates webhook', async () => {
       const inboundMessageUrl = 'some.webhook.url';
-      const successfullResponse: AccountConfiguration = {
+      const successfullResponse: CreateWebhookResponseDto = {
         scopes: ['channels:read'],
         callback: {
-          callbackVersion: '2.12',
+          callbackVersion: '2.11',
           inboundMessageUrl,
         },
       };
@@ -62,7 +65,7 @@ describe('WebhooksController', () => {
       });
 
       return request(app.getHttpServer())
-        .post('/webhooks')
+        .post(`/webhooks/channels/${channel}/phone-numbers/${phoneNumber}`)
         .expect(200)
         .expect(successfullResponse)
         .expect((res) => {
