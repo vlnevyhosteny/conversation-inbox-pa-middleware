@@ -56,17 +56,4 @@ describe('ForwardController', () => {
         message: `Channel in params [${channel}] not equal with channel in body [${body.channel}].`,
       });
   });
-
-  it('should throw when contentType in param differ from contentType in body', async () => {
-    const contentType = ContentTypeDto.image;
-    const body = requestBody(ChannelsDto.viber, ContentTypeDto.audio);
-    return request(app.getHttpServer())
-      .post(`/forward/to/tyntec/viber/${contentType}`)
-      .send(body)
-      .expect(400)
-      .expect({
-        statusCode: HttpStatus.BAD_REQUEST,
-        message: `ContentType in params [${contentType}] not equal with contentType in body [${body.content.contentType}].`,
-      });
-  });
 });
