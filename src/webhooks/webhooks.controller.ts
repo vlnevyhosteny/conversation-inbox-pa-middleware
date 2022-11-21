@@ -37,7 +37,7 @@ export class WebhooksController {
   @Post('channels/:channel/phone-numbers/:phoneNumber')
   @HttpCode(HttpStatus.OK)
   @ApiHeader({
-    name: 'tyntec-api-key',
+    name: 'apiKey',
     description: 'Api key to access Tyntec Conversation API',
   })
   @ApiResponse({
@@ -67,7 +67,7 @@ export class WebhooksController {
   @TyntecApiErorResponses()
   public async create(
     @Body() body: CreateWebhookDto,
-    @Headers('tyntec-api-key') tyntecApiKey: string,
+    @Headers('apiKey') tyntecApiKey: string,
     @Param('channel') channel: ChannelsDto,
     @Param('phoneNumber') phoneNumber: number,
     @Res() response: ExpressResponse,

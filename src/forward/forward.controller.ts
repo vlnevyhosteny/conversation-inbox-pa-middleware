@@ -41,7 +41,7 @@ export class ForwardController {
   })
   @TyntecApiErorResponses()
   @ApiHeader({
-    name: 'tyntec-api-key',
+    name: 'apiKey',
     description: 'Api key to access Tyntec Conversation API',
   })
   @ApiBody({
@@ -58,7 +58,7 @@ export class ForwardController {
   })
   public send(
     @Body() body: ToTyntecBodyDto,
-    @Headers('tyntec-api-key') tyntecApiKey: string,
+    @Headers('apiKey') tyntecApiKey: string,
     @Param('channel') channel: ChannelsDto,
     @Param('contentType') contentType: ContentTypeDto,
   ): Promise<MessageResponse> {
