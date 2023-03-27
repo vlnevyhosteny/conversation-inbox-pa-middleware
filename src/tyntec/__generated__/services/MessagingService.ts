@@ -21,15 +21,23 @@ export class MessagingService {
    */
   public sendMessage({
     requestBody,
+    xTyntecMessageSource = 'core-api',
   }: {
     /**
      * The message you would like to send
      */
     requestBody: MessageRequest,
+    /**
+     * an authorization header
+     */
+    xTyntecMessageSource?: 'conversations-inbox' | 'power-automate' | 'zapier' | 'slack' | 'node-red' | 'core-api',
   }): CancelablePromise<Problem | MessageResponse> {
     return this.httpRequest.request({
       method: 'POST',
       url: '/messages',
+      headers: {
+        'x-tyntec-message-source*': xTyntecMessageSource,
+      },
       body: requestBody,
       mediaType: 'application/json',
       errors: {

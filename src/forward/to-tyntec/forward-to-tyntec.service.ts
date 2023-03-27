@@ -21,6 +21,7 @@ export class ForwardToTyntecService extends WithApiResponseHandling {
         .api(tyntecApiKey)
         .messaging.sendMessage({
           requestBody: body,
+          xTyntecMessageSource: 'power-automate',
         });
 
       if (isMessageResponse(response)) {
