@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/compare/v1.1.0...v1.2.0) (2023-03-29)
+
+
+### Bug Fixes
+
+* **ci:** node version ([c7ac4bf](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/c7ac4bf5a01ac2714f458504437706fcc44184c4))
+
+
+### Features
+
+* **forward-message:** add message source header ([856f527](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/856f5277a6f3b8297612f93cca2249c471af17f8))
+
 # [1.1.0](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/compare/v1.0.0...v1.1.0) (2022-11-21)
 
 
