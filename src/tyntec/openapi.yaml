@@ -29,6 +29,23 @@ paths:
       summary: Send a message
       tags:
         - 'Messaging'
+      parameters:
+        - name: x-tyntec-message-source*
+          in: header
+          description: an authorization header
+          required: true
+          schema:
+            type: string
+            enum:
+              [
+                conversations-inbox,
+                power-automate,
+                zapier,
+                slack,
+                node-red,
+                core-api,
+              ]
+            default: core-api
       description: Send chat messages via this path.
       requestBody:
         description: The message you would like to send
