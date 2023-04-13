@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/compare/v1.2.0...v1.3.0) (2023-04-13)
+
+
+### Features
+
+* request logger using nestjs-pino ([0677398](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/06773981b364ec07b753ce8f5de356634fa7ab64))
+
 # [1.2.0](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/compare/v1.1.0...v1.2.0) (2023-03-29)
 
 
