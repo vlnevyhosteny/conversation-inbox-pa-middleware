@@ -7,7 +7,7 @@ export abstract class WithApiResponseHandling {
     status: HttpStatus,
     cause: ApiError | Problem,
   ): HttpException {
-    const message = (cause as Problem).detail ?? (cause as Error).message;
+    let message = (cause as Problem).detail ?? (cause as Error).message;
 
     let exception: HttpException;
     switch (status) {
@@ -24,6 +24,12 @@ export abstract class WithApiResponseHandling {
         );
         break;
       case HttpStatus.BAD_REQUEST:
+        const violations = (cause as ApiError).body?.violations;
+
+        if (violations && message) {
+          message += `. Violations: ${JSON.stringify(violations)}`;
+        }
+
         exception = new HttpException(
           message ?? 'Invalid request',
           HttpStatus.BAD_REQUEST,
