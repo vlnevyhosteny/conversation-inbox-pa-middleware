@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/compare/v1.4.0...v1.4.1) (2023-04-19)
+
+
+### Bug Fixes
+
+* **forward:** typo in x-tyntec-message-source header name ([50500fc](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/50500fc04b94a7f27b934237f369384c73255708))
+
 # [1.4.0](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/compare/v1.3.0...v1.4.0) (2023-04-17)
 
 
