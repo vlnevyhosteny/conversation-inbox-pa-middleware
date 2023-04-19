@@ -36,7 +36,7 @@ export class MessagingService {
       method: 'POST',
       url: '/messages',
       headers: {
-        'x-tyntec-message-source*': xTyntecMessageSource,
+        'x-tyntec-message-source': xTyntecMessageSource,
       },
       body: requestBody,
       mediaType: 'application/json',
