@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/compare/v1.3.0...v1.4.0) (2023-04-17)
+
+
+### Features
+
+* **forward:** add violations property for 400 requests ([3f2aa74](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/commit/3f2aa7494d28e0a3bf6cfe21072a5d466d9eda68))
+
 # [1.3.0](https://github.com/vlnevyhosteny/conversation-inbox-pa-middleware/compare/v1.2.0...v1.3.0) (2023-04-13)
 
 
